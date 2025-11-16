@@ -75,6 +75,14 @@ public class Usuario {
         this.rol = rol;
     }
 
+    /**
+     * Valida si la contraseña que ingresó el usuario coincide con la
+     * almacenada en el objeto.
+     *
+     * @param contrasenaIngresada
+     * @return true si la contraseña que se ingresó es igual a la almacenada;
+     *          falso en el caso contrario
+     */
     public boolean validarContrasena(String contrasenaIngresada) {
        return this.contrasena.equals(contrasenaIngresada);
     }
