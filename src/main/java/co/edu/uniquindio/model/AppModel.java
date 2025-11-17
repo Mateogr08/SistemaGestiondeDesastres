@@ -40,6 +40,13 @@ public class AppModel {
     }
 
     /**
+     * Devuelve el gestor de equipos.
+     *
+     * @return instancia de GestorEquipos
+     */
+    public GestorEquipos getGestorEquipos() { return gestorEquipos; }
+
+    /**
      * Devuelve el gestor de recursos.
      *
      * @return instancia de GestorRecursos
@@ -95,31 +102,63 @@ public class AppModel {
         gestorRecursos.registrarRecursoGlobal(kits);
         gestorRecursos.registrarRecursoGlobal(equipos);
 
-        // ubicaciones
-        Ubicacion ciudadA = new Ubicacion("Ciudad A", "Ciudad", 1200, 9, null);
-        Ubicacion ciudadB = new Ubicacion("Ciudad B", "Refugio", 400, 6, null);
-        Ubicacion centroC = new Ubicacion("Centro C", "Centro de Ayuda", 200, 8, null);
+        // Ubicaciones existentes
+        Ubicacion ciudadA = new Ubicacion("Ciudad A", "Ciudad", 1200, 9, 4.5709, -74.2973);
+        Ubicacion ciudadB = new Ubicacion("Ciudad B", "Refugio", 400, 6, 4.6097, -74.0817);
+        Ubicacion centroC = new Ubicacion("Centro C", "Centro de Ayuda", 200, 8, 4.6250, -74.1000);
+        Ubicacion refugioD = new Ubicacion("Refugio D", "Refugio", 300, 7, 4.6400, -74.1500);
+        Ubicacion ciudadE = new Ubicacion("Ciudad E", "Ciudad", 500, 3, 4.5800, -74.2000);
+        Ubicacion ciudadF = new Ubicacion("Ciudad F", "Ciudad", 350, 2, 4.5900, -74.1200);
+        Ubicacion centroG = new Ubicacion("Centro G", "Centro de Ayuda", 150, 5, 4.6200, -74.1300);
+        Ubicacion refugioH = new Ubicacion("Refugio H", "Refugio", 250, 7, 4.6000, -74.1600);
 
-        // añadir recursos a ubicaciones
-        ciudadA.agregarRecurso(agua, 100);
-        ciudadB.agregarRecurso(alimentos, 50);
-        centroC.agregarRecurso(kits, 30);
+        // Asignar recursos
+        ciudadA.agregarRecurso(agua, 150);
+        ciudadA.agregarRecurso(kits, 50);
+        ciudadB.agregarRecurso(alimentos, 70);
+        centroC.agregarRecurso(kits, 40);
+        refugioD.agregarRecurso(agua, 60);
+        ciudadE.agregarRecurso(alimentos, 80);
+        ciudadF.agregarRecurso(alimentos, 60);
+        centroG.agregarRecurso(kits, 30);
+        refugioH.agregarRecurso(agua, 50);
 
-        // agregar ubicaciones y rutas al grafo
-        grafoRutas.agregarUbicacion(ciudadA);
-        grafoRutas.agregarUbicacion(ciudadB);
-        grafoRutas.agregarUbicacion(centroC);
+        // Agregar todas las ubicaciones al grafo
+        for (Ubicacion u : Arrays.asList(ciudadA, ciudadB, centroC, refugioD, ciudadE, ciudadF, centroG, refugioH)) {
+            grafoRutas.agregarUbicacion(u);
+        }
 
+        // Agregar rutas bidireccionales
         grafoRutas.agregarRuta(ciudadA, ciudadB, 25);
+        grafoRutas.agregarRuta(ciudadB, ciudadA, 25);
         grafoRutas.agregarRuta(ciudadB, centroC, 12);
+        grafoRutas.agregarRuta(centroC, ciudadB, 12);
         grafoRutas.agregarRuta(ciudadA, centroC, 30);
+        grafoRutas.agregarRuta(centroC, ciudadA, 30);
+        grafoRutas.agregarRuta(centroC, refugioD, 15);
+        grafoRutas.agregarRuta(refugioD, centroC, 15);
+        grafoRutas.agregarRuta(ciudadE, ciudadA, 20);
+        grafoRutas.agregarRuta(ciudadA, ciudadE, 20);
+        grafoRutas.agregarRuta(ciudadF, ciudadB, 10);
+        grafoRutas.agregarRuta(ciudadB, ciudadF, 10);
+        grafoRutas.agregarRuta(centroG, centroC, 8);
+        grafoRutas.agregarRuta(centroC, centroG, 8);
+        grafoRutas.agregarRuta(refugioH, refugioD, 12);
+        grafoRutas.agregarRuta(refugioD, refugioH, 12);
+        grafoRutas.agregarRuta(ciudadF, centroG, 14);
+        grafoRutas.agregarRuta(centroG, ciudadF, 14);
+        grafoRutas.agregarRuta(ciudadE, refugioH, 7);
+        grafoRutas.agregarRuta(refugioH, ciudadE, 7);
 
-        // registrar zonas en cola de evacuación
-        gestorEvacuacion.agregarZonaEvacuacion(ciudadA);
-        gestorEvacuacion.agregarZonaEvacuacion(centroC);
+        // Zonas de evacuación
+        for (Ubicacion z : Arrays.asList(ciudadA, centroC, refugioD)) {
+            gestorEvacuacion.agregarZonaEvacuacion(z);
+        }
 
-        // registrar equipos
-        gestorEquipos.agregarEquipo(new Equipo("Equipo Alpha", Arrays.asList("Juan", "Ana"), null));
-        gestorEquipos.agregarEquipo(new Equipo("Equipo Beta", Arrays.asList("Luis", "Maria"), null));
+        // Equipos
+        gestorEquipos.agregarEquipo(new Equipo("Equipo Alpha", Arrays.asList("Jhan", "Ana"), ciudadA));
+        gestorEquipos.agregarEquipo(new Equipo("Equipo Beta", Arrays.asList("Luis", "Maria"), refugioD));
+        gestorEquipos.agregarEquipo(new Equipo("Equipo Gamma", Arrays.asList("Carlos", "Sofía"), centroC));
+        gestorEquipos.agregarEquipo(new Equipo("Equipo Omega", Arrays.asList("Andres", "Sara"), refugioH));
     }
 }

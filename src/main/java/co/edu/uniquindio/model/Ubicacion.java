@@ -3,6 +3,7 @@ package co.edu.uniquindio.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Ubicacion {
 
@@ -11,8 +12,10 @@ public class Ubicacion {
     private int personasAfectadas;
     private int nivelUrgencia;
     private final Map<Recurso, Integer> recursos;
+    private double latitud;
+    private double longitud;
 
-    public Ubicacion(String nombre, String tipo, int personasAfectadas, int nivelUrgencia, Map<Recurso, Integer> recursos) {
+    public Ubicacion(String nombre, String tipo, int personasAfectadas, int nivelUrgencia, double latitud, double longitud) {
         if(nombre == null || nombre.isBlank()){
             throw new IllegalArgumentException("El nombre de la ubicación no puede estar vacía");
         }
@@ -70,6 +73,14 @@ public class Ubicacion {
         this.nivelUrgencia = nivelUrgencia;
     }
 
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
     public Map<Recurso, Integer> getRecursos() {
         return recursos;
     }
@@ -116,6 +127,10 @@ public class Ubicacion {
         }
     }
 
+    public Map<Recurso, Integer> getRecursosDisponibles() {
+        return recursos;
+    }
+
     /**
      * Determina si la zona es considerada crítica según el nivel de urgencia
      *
@@ -130,6 +145,13 @@ public class Ubicacion {
     public String resumen(){
         return String.format("%s (%s) | Afectados: %d | Urgencia: %d | Recursos: %d",
                 nombre, tipo, personasAfectadas, nivelUrgencia, recursos.size());
+    }
+
+    public String recursosComoString() {
+        return recursos.entrySet()
+                .stream()
+                .map(e -> e.getKey().getNombre() + " x" + e.getValue())
+                .collect(Collectors.joining(", "));
     }
 
     /**
@@ -172,10 +194,8 @@ public class Ubicacion {
     }
 
     @Override
-    public String toString(){
-        return String.format("Ubicacion{nombre='%s', tipo='%s', personas=%d, urgencia=%d, recursos=%d}",
-                nombre, tipo, personasAfectadas, nivelUrgencia, recursos.size());
+    public String toString() {
+        return String.format("Ubicacion{nombre='%s', tipo='%s', personas=%d, urgencia=%d, recursos=%d, lat=%.6f, lon=%.6f}",
+                nombre, tipo, personasAfectadas, nivelUrgencia, recursos.size(), latitud, longitud);
     }
-
-
 }
