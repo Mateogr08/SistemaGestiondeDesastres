@@ -4,12 +4,6 @@ import java.util.*;
 
 public class GrafoRutas {
     private final Map<Ubicacion, List<Ruta>> adyacencias;
-
-    //Devuelve el mapa de adyacencias (grafo completo)
-
-    public Map<Ubicacion, List<Ruta>> getAdyacencias() {
-        return adyacencias;
-    }
     /**
      * Constructor que inicializa el grafo de rutas como un mapa vacío.
      */
