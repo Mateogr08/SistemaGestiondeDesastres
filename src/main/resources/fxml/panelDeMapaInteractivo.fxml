@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane prefHeight="700" prefWidth="1100"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uniquindio.controller.PanelDeMapaInteractivoController">
+
+    <top>
+        <HBox spacing="10" style="-fx-background-color: #1F2937; -fx-padding: 10;">
+            <TextField fx:id="txtBuscar" promptText="Buscar ubicación..." />
+            <Button fx:id="btnCentrar" text="Centrar" />
+            <ComboBox fx:id="cbOrigen" promptText="Origen" />
+            <ComboBox fx:id="cbDestino" promptText="Destino" />
+            <Button fx:id="btnCamino" text="Mostrar Camino" />
+            <Button fx:id="btnVolver" text="Volver"
+                    style="-fx-background-color: #DC143C; -fx-text-fill: white;"
+                    onAction="#onVolver"/>
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane style="-fx-background-color: #F3F4F6;">
+            <WebView fx:id="webView" prefHeight="700" prefWidth="1100" />
+        </StackPane>
+    </center>
+</BorderPane>
